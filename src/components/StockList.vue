@@ -2,27 +2,21 @@
   <h1 class="pt-5">Stock list</h1>
   <div class="row">
     <!-- Individual stocks -->
-    <div class="col-md-4 mt-4" v-for="stock in stocks" :key="stock.name">
-      <div class="card">
-        <div class="card-body">
-          {{ stock.name }}
-          <span
-            :class="{
-              down: stock.price < stock.previousPrice,
-              up: stock.price > stock.previousPrice,
-            }"
-            >{{ stock.currency }} {{ stock.price.toFixed(4) }}</span
-          >
-        </div>
-      </div>
-    </div>
+    <StockItem v-for="stock in stocks" :stock="stock" @buy="buyItem"/>
     <!-- End of individual stocks -->
   </div>
 </template>
 
 <script>
+import StockItem from "./StockItem.vue";
+
 export default {
+  components:{
+    StockItem
+  },
+  
   name: "StockList",
+
   data() {
     return {
       stocks: [
@@ -44,6 +38,9 @@ export default {
         }
       });
     },
+    buyItem(name, amount) {
+      alert("Bought " + amount + " " + name +" stocks");
+    }
   },  
   mounted() {
     setInterval(() => {
@@ -54,10 +51,5 @@ export default {
 </script>
 
 <style scoped>
-.up {
-  color: green;
-}
-.down {
-  color: red;
-}
+
 </style>
